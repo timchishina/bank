@@ -1,13 +1,14 @@
-package org.example.Banking;
+package org.example.Banking.Factories;
 
-import org.example.Bank;
+import org.example.Banking.Bank;
+import org.example.Banking.BankAccount;
 
 public class AccountFactory {
     static int CountAccount;
     AccountFactory () {
         CountAccount = 0;
     }
-    public static BankAccount createAccount(String Name, double Balance) {
+    public static BankAccount create(String Name, double Balance) {
         BankAccount account = new BankAccount();
         if (Balance > 0) {
             account.setBalance(Balance);

@@ -1,9 +1,13 @@
-package org.example.Banking;
+package org.example.Banking.Facades;
 
-import org.example.Bank;
+import org.example.Banking.Bank;
+import org.example.Banking.Category;
+import org.example.Banking.Factories.CategoryFactory;
 
-public class CategoryFacade {
-    public Category createCategory(boolean Type, String Name) {
+import java.util.List;
+
+public class CategoryFacade{
+    public static Category create(boolean Type, String Name) {
         return CategoryFactory.createCategory(Type, Name);
     }
 
@@ -18,7 +22,11 @@ public class CategoryFacade {
         }
     }
 
-    public static Category findCategory(int id) {
+    public static List<Category> view() {
+        return Bank.categories;
+    }
+
+    public static Category find(int id) {
         for (Category tmp: Bank.categories) {
             if (id == tmp.getId()) {
                 return tmp;
@@ -27,7 +35,7 @@ public class CategoryFacade {
         return null;
     }
 
-    public static void changeCategory(Category category, boolean Type) {
+    private static void changeCategory(Category category, boolean Type) {
         if (category == null) {
             return;
         }
@@ -35,15 +43,14 @@ public class CategoryFacade {
         CategoryFacade.changeCategories(category);
     }
 
-    public static void changeCategory(Category category, String Name) {
+    private static void changeCategory(Category category, String Name) {
         if (category == null) {
             return;
         }
         category.setName(Name);
         CategoryFacade.changeCategories(category);
     }
-
-    public static void changeCategory(Category category, boolean Type, String Name) {
+    public static void change(Category category, boolean Type, String Name) {
         if (category == null) {
             return;
         }
@@ -51,20 +58,8 @@ public class CategoryFacade {
         CategoryFacade.changeCategory(category, Name);
     }
 
-    public static void deleteCategory(Category category) {
-        if (category == null) {
-            return;
-        }
-        for (Category tmp: Bank.categories) {
-            if (category.getId() == tmp.getId()) {
-                Bank.categories.remove(tmp);
-                return;
-            }
-        }
-    }
-
-    public static void deleteCategory(int id) {
-        Category category = findCategory(id);
+    public static void delete(int id) {
+        Category category = find(id);
         if (category == null) {
             return;
         }

@@ -1,6 +1,7 @@
-package org.example.Banking;
+package org.example.Banking.Factories;
 
-import org.example.Bank;
+import org.example.Banking.Bank;
+import org.example.Banking.Category;
 
 public class CategoryFactory {
     static int CountCategory;

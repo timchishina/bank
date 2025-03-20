@@ -1,10 +1,15 @@
-package org.example.Banking;
+package org.example.Banking.Facades;
 
-import org.example.Bank;
+import org.example.Banking.Bank;
+import org.example.Banking.Operation;
+import org.example.Banking.Factories.OperationFactory;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class OperationFacade {
-    public Operation createOperation(boolean Type, int BankAccount, double Sum, String Description, int CategoryId) {
-        return OperationFactory.createOperation(Type, BankAccount, Sum, Description, CategoryId);
+    public static Operation create(boolean Type, int BankAccount, double Sum, String Description, int CategoryId) {
+        return OperationFactory.create(Type, BankAccount, Sum, Description, CategoryId);
     }
     
     private static void changeOperations(Operation operation) {
@@ -18,7 +23,14 @@ public class OperationFacade {
         }
     }
 
-    public static Operation findOperation(int id) {
+    public static List<Operation> view(int accountId) {
+        if (AccountFacade.find(accountId) == null) {
+            return null;
+        }
+        return Bank.operations.get(accountId);
+    }
+
+    public static Operation find(int id) {
         for (Operation tmp: Bank.operations.get(id)) {
             if (id == tmp.getId()) {
                 return tmp;
@@ -27,7 +39,7 @@ public class OperationFacade {
         return null;
     }
 
-    public static void changeOperation(Operation operation, boolean Type, int BankAccount, double Sum, String Description, int CategoryId) {
+    public static void change(Operation operation, boolean Type, int BankAccount, double Sum, String Description, int CategoryId) {
         if (operation == null) {
             return;
         }
@@ -39,12 +51,19 @@ public class OperationFacade {
         OperationFacade.changeOperations(operation);
     }
 
-    public static void deleteOperation(Operation operation) {
+    public static void delete(Operation operation) {
         for (Operation tmp: Bank.operations.get(operation.getBank_account_id())) {
             if (operation.getId() == tmp.getId()) {
                 Bank.operations.get(operation.getBank_account_id()).remove(tmp);
                 return;
             }
         }
+    }
+    public List<Operation> getAllOperations() {
+        List<Operation> allOperations = new ArrayList<>();
+        for (List<Operation> ops : Bank.operations.values()) {
+            allOperations.addAll(ops);
+        }
+        return allOperations;
     }
 }
