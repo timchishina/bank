@@ -1,5 +1,7 @@
 package org.example.Banking;
 
+import org.example.Migrations.ExportVisitor;
+
 import  java.time.LocalDateTime;
 
 public class Operation {
@@ -26,4 +28,5 @@ public class Operation {
     public int getId() { return id; }
     public LocalDateTime getDate() { return date; }
     public double getSum() { return sum; }
+    public String accept(ExportVisitor visitor) { return visitor.visit(this); }
 }
